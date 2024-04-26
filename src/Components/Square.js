@@ -1,22 +1,40 @@
 import React from "react";
 import { useState } from "react";
 import Squarebutton from "./Squarebutton";
-import Hello from "./Hello";
+
 
 function Square() {
+
    const [state,setstate]=useState(true);
     const [squares, setSquares] = useState(Array(9).fill(null));
+   
+    const checkwinner = () => {
+        const winnerLogic = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8],
+          [0, 3, 6],
+          [1, 4, 7],
+          [2, 5, 8],
+          [0, 4, 8],
+          [2, 4, 6],
+        ];
+    
+        for (let i = 0; i < winnerLogic.length; i++) {
+          const [a, b, c] = winnerLogic[i];
+          if (squares[a] && squares[a] === squares[b] && squares[b] === squares[c]) {
+            return squares[a]; // Return the winning value (X or O)
+          }
+        }
+        return null; // Return null if no winner is found
+      };
+const isWinner=checkwinner();
     function clickHandler(index) {
         if (state=== true) {
           const newSquares = [...squares]; // Create a copy of the squares array
 
           newSquares[index] = "X"; // Update the value at the specified index
-          if((newSquares[0]==="X"&&newSquares[1]==="X"&&newSquares[2]==="X")||(newSquares[3]==="X"&&newSquares[4]==="X"&&newSquares[5]==="X")||
-          (newSquares[6]==="X"&&newSquares[7]==="X"&&newSquares[8]==="X")||(newSquares[0]==="X"&&newSquares[1]==="X"&&newSquares[2]==="X")||
-          (newSquares[1]==="X"&&newSquares[4]==="X"&&newSquares[7]==="X")||(newSquares[2]==="X"&&newSquares[5]==="X"&&newSquares[7]==="X")||
-          (newSquares[0]==="X"&&newSquares[4]==="X"&&newSquares[7]==="X")||(newSquares[2]==="X"&&newSquares[4]==="X"&&newSquares[6]==="X")){
-          <Hello></Hello>
-          }
+         
           setSquares(newSquares); // Update the state with the new array
          setstate(false);
         } else if (state=== false) {
@@ -26,7 +44,13 @@ function Square() {
           setstate(true);
         }
       }
-return <div className="min-h-[600px] max-h-[1200px]">
+return (
+<div className="min-h-[600px] max-h-[1200px]">
+    {isWinner?(< div className="text-4xl">{isWinner} wins khusiya banao abhi pura banaoga abhi bhi kuch cheeze rahe rhi hai
+     kya batu lg raha tha khud banaoga lekin youtube se dekhna hi pada react hai hard lekin ho jaegi bhagwan ne chaha tho aur koi naya basic 
+     project batao react me jldi ye tho 60 percent smj aaya.
+     </div>):(
+    <>
   <div className="flex flex-col items-center justify-center">
 <div className="flex flex-row">
 <Squarebutton onClick={()=>(clickHandler(0))} value={squares[0]}></Squarebutton>
@@ -43,8 +67,8 @@ return <div className="min-h-[600px] max-h-[1200px]">
 <Squarebutton onClick={()=>(clickHandler(7))} value={squares[7]}></Squarebutton>
 <Squarebutton onClick={()=>(clickHandler(8))} value={squares[8]}> </Squarebutton>
 </div>
-</div>
+</div></>)}
 </div>
 
-}
+)}
 export default Square;
